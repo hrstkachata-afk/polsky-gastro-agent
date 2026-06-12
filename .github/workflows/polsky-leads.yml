@@ -1,6 +1,9 @@
 name: Polsky gastro lead finder
 
 on:
+  push:
+    branches:
+      - main
   schedule:
     - cron: "15 6 * * 1-5"
   workflow_dispatch:
