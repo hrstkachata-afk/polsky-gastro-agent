@@ -1,0 +1,3 @@
+id,status,nazev,typ,mesto,web,email,formular,poznamka,last_action,last_contacted,last_reply,next_step
+K001,schvalit,Przykładowe Biuro Podróży,biuro_podrozy,Katowice,https://example.com,kontakt@example.com,,Ukázkový kontakt - před skutečným použitím smaž nebo přepiš.,,,,"zkontrolovat návrh"
+K002,schvalit,Przykładowy Klub Seniora,klub_seniora,Bielsko-Biała,https://example.org,,https://example.org/kontakt,Ukázkový kontakt s formulářem.,,,,"zkontrolovat návrh"

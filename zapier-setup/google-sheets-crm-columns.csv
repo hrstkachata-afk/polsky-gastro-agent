@@ -1,0 +1,2 @@
+contact_id,status,company_name,contact_type,city,country,website,email,contact_form,phone,source,priority,language,first_draft_subject,last_email_sent_at,last_reply_at,interest_status,people_count,requested_date,budget_or_price,next_step,trello_card_url,gmail_thread_url,notes,do_not_contact
+K001,ke_schvaleni,Przykładowe Biuro Podróży,biuro_podrozy,Katowice,Polska,https://example.com,kontakt@example.com,,,"manual test",normal,pl,,,,,,,,zkontrolovat draft,,,Ukázkový řádek - před ostrým provozem přepiš.,FALSE

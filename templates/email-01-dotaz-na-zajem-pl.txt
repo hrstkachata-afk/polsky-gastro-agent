@@ -1,0 +1,24 @@
+Temat: Oferta dla grup z Polski - czeski obiad w Štramberku
+
+Dzień dobry,
+
+nazywam się {{contactName}} i reprezentuję obiekt {{restaurantName}} w miejscowości {{city}}, niedaleko polskiej granicy.
+
+Przygotowaliśmy krótką ofertę dla grup z Polski: {{offerNamePl}}.
+
+W pakiecie:
+{{packageBullets}}
+
+Oferta może dobrze pasować dla wycieczek autokarowych, grup seniorów, firm, szkół oraz rodzinnych wyjazdów weekendowych.
+{{programNotePl}}
+
+Czy mogę przesłać Państwu krótką ofertę grupową z menu, ceną i warunkami rezerwacji?
+
+Jeżeli nie są Państwo właściwym adresatem, proszę zignorować tę wiadomość. Nie będziemy wysyłać kolejnych wiadomości bez Państwa zainteresowania.
+
+Pozdrawiam serdecznie,
+{{contactName}}
+{{restaurantName}}
+tel. {{phone}}
+{{email}}
+{{website}}

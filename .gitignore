@@ -1,0 +1,7 @@
+node_modules/
+.env
+.env.*
+outbox/
+*.log
+google-service-account*.json
+service-account*.json

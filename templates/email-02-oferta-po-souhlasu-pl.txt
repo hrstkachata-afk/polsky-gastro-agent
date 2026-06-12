@@ -1,0 +1,28 @@
+Temat: Czeski obiad regionalny w Štramberku - oferta dla grup
+
+Dzień dobry,
+
+dziękuję za możliwość przesłania szczegółów.
+
+Proponujemy pakiet "{{offerNamePl}}" dla grup odwiedzających Štramberk.
+
+Pakiet obejmuje:
+{{packageBullets}}
+
+Cena od: {{priceFromCzk}} CZK / osoba
+Minimalna grupa: {{groupMinPeople}}
+Maksymalna grupa: {{maxGroupPeople}} osób
+
+{{menuNotePl}}
+{{programNotePl}}
+
+Oferta jest przygotowana z myślą o polskich grupach turystycznych, wycieczkach autokarowych, klubach seniora, firmach i szkołach.
+
+Chętnie dopasujemy menu, godzinę przyjazdu i liczbę miejsc do Państwa programu wycieczki.
+
+Pozdrawiam serdecznie,
+{{contactName}}
+{{restaurantName}}
+tel. {{phone}}
+{{email}}
+{{website}}

@@ -1,0 +1,21 @@
+{
+  "restaurantName": "Chata Dr. Hrstky",
+  "city": "Štramberk",
+  "contactName": "Monika Sikorová",
+  "phone": "+420 724 143 903",
+  "email": "hrstkachata@gmail.com",
+  "website": "www.chatadrhrstky.cz",
+  "priceFromCzk": "około 600",
+  "groupMinPeople": "do uzgodnienia",
+  "maxGroupPeople": "40",
+  "beerName": "Olbrew z lokalnego browaru",
+  "menuNotePl": "Menu główne doprecyzujemy według terminu i typu grupy.",
+  "programNotePl": "Program możemy dopasować do grupy. Dla szkół i osób niepijących przygotujemy wariant bez alkoholu.",
+  "offerNamePl": "Czeski obiad regionalny w Štramberku",
+  "packageBulletsPl": [
+    "tradycyjny czeski obiad",
+    "degustacja piwa Olbrew z lokalnego browaru dla osób dorosłych",
+    "domowe ucho nadziewane naszym kremem po obiedzie",
+    "paczka oryginalnych Štramberskich uszu na wynos"
+  ]
+}

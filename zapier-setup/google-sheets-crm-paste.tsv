@@ -1,0 +1,3 @@
+contact_id	status	company_name	contact_type	city	country	website	email	contact_form	phone	source	priority	language	first_draft_subject	last_email_sent_at	last_reply_at	interest_status	people_count	requested_date	budget_or_price	next_step	trello_card_url	gmail_thread_url	notes	do_not_contact
+K001	novy	Przykladowe Biuro Podrozy	biuro_podrozy	Katowice	Polska	https://example.com	kontakt@example.com			manual test	normal	pl								cekame na Zapier			Ukazkovy radek - pred ostrym provozem prepis.	FALSE
+K002	novy	Przykladowy Klub Seniora	klub_seniora	Bielsko-Biala	Polska	https://example.org		https://example.org/kontakt		manual test	normal	pl								cekame na Zapier			Ukazkovy radek s kontaktnim formularem - pred ostrym provozem prepis.	FALSE

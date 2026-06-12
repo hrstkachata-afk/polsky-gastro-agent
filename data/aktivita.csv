@@ -1,0 +1,4 @@
+datetime,contact_id,contact_name,action,status,detail,file
+2026-06-11T20:24:50.415Z,K001,Przykładowe Biuro Podróży,draft_created,ceka_na_schvaleni,Oferta dla grup z Polski - czeski obiad w Štramberku,outbox/2026-06-11-K001-przyk-adowe-biuro-podrozy.txt
+2026-06-11T20:24:50.417Z,K002,Przykładowy Klub Seniora,draft_created,ceka_na_schvaleni,Oferta dla grup z Polski - czeski obiad w Štramberku,outbox/2026-06-11-K002-przyk-adowy-klub-seniora.txt
+2026-06-11T20:24:50.574Z,K001,Przykładowe Biuro Podróży,reply_recorded,zajem,Chtějí cenu a možné termíny pro 35 osob. | next: poslat konkrétní nabídku,
