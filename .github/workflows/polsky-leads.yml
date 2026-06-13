@@ -9,7 +9,7 @@ jobs:
     timeout-minutes: 20
     permissions:
       contents: read
-      id-token: write
+      issues: write
 
     steps:
       - name: Checkout
@@ -25,6 +25,12 @@ jobs:
 
       - name: Build review pack
         run: npm run review-pack
+
+      - name: Create GitHub review issues
+        run: npm run review-issues
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MAX_REVIEW_ISSUES: "10"
 
       - name: Save lead output files
         if: always()

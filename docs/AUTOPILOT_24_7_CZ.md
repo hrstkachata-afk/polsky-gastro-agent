@@ -16,6 +16,7 @@ Agent sam neposila e-maily. Vytvari nebo pripravuje podklady ke kontrole.
 
 - `npm run leads` najde verejne kandidaty.
 - `npm run review-pack` vytvori checklist a Trello CSV ke kontrole.
+- `npm run review-issues` vytvori GitHub Issues pro rucni schvaleni.
 - `.github/workflows/polsky-leads.yml` jde spustit rucne pres GitHub Actions.
 - Workflow ted nezapisuje do Google Sheets.
 - Vystupy jsou ulozene jako artifact `polsky-leads-output`.
@@ -45,3 +46,14 @@ Po rucnim behu workflow stahni artifact `polsky-leads-output`. Dulezite soubory:
 - `lead-candidates.csv` - surovy seznam nalezenych kandidatu.
 - `kontakty-ke-kontrole.md` - lidsky checklist.
 - `trello-karty-ke-kontrole.csv` - CSV pro vytvoreni karet v seznamu `Ke kontrole`.
+
+## GitHub Issues jako CRM
+
+Workflow vytvari issue s labely:
+
+- `lead-review`
+- `priority-high`
+- `priority-normal`
+- `priority-low`
+
+Issue slouzi jako karta ke kontrole. Kdyz je kontakt vhodny, nech issue otevrene a dopln poznamku. Kdyz je nevhodny, zavri ho s poznamkou `neposilat`.
