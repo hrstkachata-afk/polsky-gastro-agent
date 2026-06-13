@@ -9,6 +9,7 @@
     "leads": "node scripts/find-leads.mjs",
     "review-pack": "node scripts/build-review-pack.mjs",
     "review-issues": "node scripts/create-github-review-issues.mjs",
+    "trello-cards": "node scripts/create-trello-cards.mjs",
     "leads:push": "node scripts/upload-leads-to-google-sheets.mjs",
     "leads:auto": "npm run leads -- --max-queries=5 --max-results=10 --max-pages=40 && npm run leads:push",
     "reply": "node scripts/record-reply.mjs",

@@ -58,10 +58,16 @@ Podrobnosti jsou v `docs/LEAD_FINDER_CZ.md`.
 
 ## Online autopilot
 
-Varianta bez ručního pouštění je připravená přes GitHub Actions:
+Varianta bez ručního pouštění je připravená přes GitHub Actions a už není závislá na Google účtu:
 
 ```text
 docs/AUTOPILOT_24_7_CZ.md
 ```
 
-Po jednorázovém nastavení Google service accountu a GitHub OIDC může agent běžet sám online a posílat nové kontakty do Google Sheets, odkud už pokračuje Zapier.
+Agent najde kontakty, připraví e-mailové texty a může vytvořit Trello karty do seznamu `K odeslani`.
+
+Trello fronta je popsaná v:
+
+```text
+docs/TRELLO_FRONTA_CZ.md
+```

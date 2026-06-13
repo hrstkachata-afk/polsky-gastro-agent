@@ -2,6 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseCsv } from "../lib/csv.mjs";
+import { contactTarget, domainOf, fitRecommendation, priorityFor, renderDraft } from "../lib/outreach.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
@@ -15,80 +16,6 @@ const token = process.env.GITHUB_TOKEN;
 const repository = process.env.GITHUB_REPOSITORY;
 const dryRun = process.env.DRY_RUN === "1" || process.argv.includes("--dry-run");
 const maxIssues = Number(process.env.MAX_REVIEW_ISSUES || "10");
-
-function domainOf(value) {
-  try {
-    return new URL(value).hostname.replace(/^www\./, "");
-  } catch {
-    return "";
-  }
-}
-
-function priorityFor(lead) {
-  const text = `${lead.poznamka || ""} ${lead.email || ""} ${lead.formular || ""}`.toLowerCase();
-  if (/skóre\s+(8|9|10|11|12)/.test(text)) return "high";
-  if (lead.email || lead.formular) return "normal";
-  return "low";
-}
-
-function scoreFor(lead) {
-  const match = String(lead.poznamka || "").match(/skóre\s+(\d+)/i);
-  return match ? Number(match[1]) : 0;
-}
-
-function contactTarget(lead) {
-  if (lead.email) return lead.email;
-  if (lead.formular) return `formularz kontaktowy: ${lead.formular}`;
-  return "DOPLNIT_KONTAKT";
-}
-
-function fitRecommendation(lead) {
-  const score = scoreFor(lead);
-  const text = `${lead.nazev || ""} ${lead.typ || ""} ${lead.poznamka || ""}`.toLowerCase();
-  const reasons = [];
-
-  if (lead.email) reasons.push("má veřejný firemní e-mail");
-  if (!lead.email && lead.formular) reasons.push("nemá e-mail, ale má kontaktní formulář");
-  if (lead.typ === "biuro_podrozy") reasons.push("vypadá jako cestovní kancelář");
-  if (/(senior|65\+|grup)/i.test(text)) reasons.push("má vazbu na skupiny nebo seniory");
-  if (/(czech|czechy|praga|morawy|beskidy|wycieczki|autokar)/i.test(text)) reasons.push("obsahově sedí na výlety/autokary/Česko");
-
-  const level = score >= 8 ? "Vysoká šance" : score >= 5 ? "Střední šance" : "Nízká šance";
-  return `${level}. ${reasons.length ? reasons.join("; ") : "Automat našel jen základní shodu, před odesláním raději zkontrolovat."}`;
-}
-
-function renderDraft(lead, offer) {
-  const packageBullets = (offer.packageBulletsPl || []).map((item) => `- ${item}`).join("\n");
-  const cityPl = offer.city === "Štramberk" ? "Štramberku" : offer.city || "Štramberku";
-  const subject = `Propozycja dla grup z Polski - ${offer.restaurantName || "Chata Dr. Hrstky"} w ${cityPl}`;
-  const body = [
-    "Dzień dobry,",
-    "",
-    "piszę do Państwa z krótką propozycją współpracy dla grup i klientów wyjeżdżających do Czech.",
-    "",
-    lead.nazev ? `Znalazłam Państwa stronę: ${lead.nazev}.` : "",
-    "",
-    `${offer.restaurantName || "Chata Dr. Hrstky"} znajduje się w miejscowości ${offer.city || "Štramberk"}, niedaleko polskiej granicy. Przygotowaliśmy ofertę dla grup z Polski: ${offer.offerNamePl || "czeski obiad regionalny"}.`,
-    "",
-    "W pakiecie:",
-    packageBullets || "- tradycyjny czeski obiad dla grup",
-    "",
-    `Oferta może pasować dla wycieczek autokarowych, grup seniorów, szkół, firm oraz krótkich wyjazdów weekendowych. ${offer.programNotePl || ""}`.trim(),
-    "",
-    "Czy mogę przesłać Państwu krótką ofertę grupową z menu, ceną i warunkami rezerwacji?",
-    "",
-    "Jeżeli nie są Państwo właściwym adresatem, proszę zignorować tę wiadomość. Nie będziemy wysyłać kolejnych wiadomości bez Państwa zainteresowania.",
-    "",
-    "Pozdrawiam serdecznie,",
-    offer.contactName || "Monika Sikorová",
-    offer.restaurantName || "Chata Dr. Hrstky",
-    `tel. ${offer.phone || ""}`.trim(),
-    offer.email || "",
-    offer.website || ""
-  ].filter((line) => line !== "").join("\n");
-
-  return { subject, body };
-}
 
 function issueTitle(lead) {
   const city = lead.mesto ? ` - ${lead.mesto}` : "";
@@ -108,6 +35,7 @@ function issueBody(lead, offer) {
     `- Mesto: ${lead.mesto || "-"}`,
     `- Web: ${lead.web || "-"}`,
     `- Email: ${lead.email || "-"}`,
+    `- Telefon: ${lead.telefon || lead.phone || "-"}`,
     `- Kontaktni formular: ${lead.formular || "-"}`,
     `- Priorita: ${priorityFor(lead)}`,
     `- Cil pro odeslani: ${contactTarget(lead)}`,

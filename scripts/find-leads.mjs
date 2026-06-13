@@ -22,6 +22,7 @@ const localContactHeaders = [
   "mesto",
   "web",
   "email",
+  "telefon",
   "formular",
   "poznamka",
   "last_action",
@@ -146,6 +147,18 @@ function extractEmails(text) {
   return [...emails];
 }
 
+function extractPhones(text) {
+  const phones = new Set();
+  for (const match of text.matchAll(/(?:\+48|\+420|0048|00420)?[\s().-]*(?:\d[\s().-]*){8,12}/g)) {
+    const compact = match[0].replace(/[^\d+]/g, "");
+    const digits = compact.replace(/\D/g, "");
+    if (digits.length < 9 || digits.length > 13) continue;
+    if (/^0+$/.test(digits)) continue;
+    phones.add(match[0].replace(/\s+/g, " ").trim());
+  }
+  return [...phones];
+}
+
 function extractContactForm(baseUrl, html) {
   const candidates = [];
   for (const match of html.matchAll(/<a\s+[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/gi)) {
@@ -250,6 +263,7 @@ function toLocalRow(lead, index) {
     lead.city,
     lead.url,
     lead.email,
+    lead.phone,
     lead.contactForm,
     lead.notes,
     "",
@@ -270,7 +284,7 @@ function toSheetsRow(lead, index) {
     lead.url,
     lead.email,
     lead.contactForm,
-    "",
+    lead.phone,
     lead.source,
     lead.score >= 7 ? "high" : "normal",
     "pl",
@@ -329,6 +343,7 @@ async function main() {
       const text = stripHtml(html);
       const emails = extractEmails(text);
       const email = emails.find((item) => /^(biuro|kontakt|info|rezerwacje|oferta|sprzedaz|office)@/.test(item)) || emails[0] || "";
+      const phone = extractPhones(text)[0] || "";
       const contactForm = extractContactForm(url, html);
       const type = classifyLead(text, url);
       const city = inferCity(text, query);
@@ -342,6 +357,7 @@ async function main() {
         city,
         url,
         email,
+        phone,
         contactForm,
         score,
         source: `auto search: ${query}`,

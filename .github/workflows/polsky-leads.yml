@@ -26,6 +26,14 @@ jobs:
       - name: Build review pack
         run: npm run review-pack
 
+      - name: Create Trello cards
+        run: npm run trello-cards
+        env:
+          TRELLO_KEY: ${{ secrets.TRELLO_KEY }}
+          TRELLO_TOKEN: ${{ secrets.TRELLO_TOKEN }}
+          TRELLO_LIST_ID: ${{ secrets.TRELLO_LIST_ID }}
+          MAX_TRELLO_CARDS: "10"
+
       - name: Create GitHub review issues
         run: npm run review-issues
         env:
