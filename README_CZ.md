@@ -74,18 +74,22 @@ docs/TRELLO_FRONTA_CZ.md
 
 ## AI psani e-mailu
 
-Trello karty umi pouzit i skutecne AI psani pres OpenAI API. Agent stale nic sam neposila, jen pripravi lepsi navrh ke kontrole.
+Trello karty umi pouzit i skutecne AI psani pres Gemini nebo OpenAI API. Agent stale nic sam neposila, jen pripravi lepsi navrh ke kontrole.
 
-V GitHub Secrets je potreba doplnit:
+V GitHub Secrets je potreba doplnit aspon jeden z techto klicu:
 
 ```text
+GEMINI_API_KEY
 OPENAI_API_KEY
 ```
+
+Agent zkusi nejdriv Gemini, potom OpenAI, a az potom bezpecnou pravidlovou verzi.
 
 Volitelne jde v GitHub Variables nastavit:
 
 ```text
+GEMINI_MODEL
 OPENAI_MODEL
 ```
 
-Kdyz `OPENAI_API_KEY` chybi nebo OpenAI vrati chybu, agent pouzije bezpecnou pravidlovou verzi textu. V Trello karte je videt, jestli text vznikl pres OpenAI, nebo jako nahradni sablona.
+Kdyz API klic chybi nebo provider vrati chybu, agent pouzije bezpecnou pravidlovou verzi textu. V Trello karte je videt, jestli text vznikl pres Gemini, OpenAI, nebo jako nahradni sablona.
