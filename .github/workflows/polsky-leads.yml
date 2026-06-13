@@ -32,7 +32,7 @@ jobs:
           TRELLO_KEY: ${{ secrets.TRELLO_KEY }}
           TRELLO_TOKEN: ${{ secrets.TRELLO_TOKEN }}
           TRELLO_LIST_ID: ${{ secrets.TRELLO_LIST_ID }}
-          MAX_TRELLO_CARDS: "10"
+          MAX_TRELLO_CARDS: "38"
 
       - name: Create GitHub review issues
         run: npm run review-issues
