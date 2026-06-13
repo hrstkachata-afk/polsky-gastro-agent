@@ -1,11 +1,6 @@
 name: Polsky gastro lead finder
 
 on:
-  push:
-    branches:
-      - main
-  schedule:
-    - cron: "15 6 * * 1-5"
   workflow_dispatch:
 
 jobs:
@@ -25,24 +20,8 @@ jobs:
         with:
           node-version: 20
 
-      - name: Authenticate to Google Cloud
-        id: auth
-        uses: google-github-actions/auth@v2
-        with:
-          token_format: access_token
-          access_token_scopes: https://www.googleapis.com/auth/spreadsheets
-          workload_identity_provider: projects/799250032013/locations/global/workloadIdentityPools/github-pool/providers/github-provider
-          service_account: polsky-gastro-agent@cobalt-alchemy-499219-h7.iam.gserviceaccount.com
-
       - name: Find public Polish leads
         run: npm run leads -- --max-queries=5 --max-results=10 --max-pages=40
-
-      - name: Append new leads to Google Sheets
-        run: npm run leads:push
-        env:
-          GOOGLE_ACCESS_TOKEN: ${{ steps.auth.outputs.access_token }}
-          GOOGLE_SHEET_ID: "1kRlaL8SDIpluta9r7q4HSqbjblGAA9GIPNv5JAUDdNQ"
-          GOOGLE_SHEET_RANGE: "List 1!A:Y"
 
       - name: Save lead output files
         if: always()

@@ -1,56 +1,38 @@
-# Autopilot 24/7
+# Bezpecny online rezim
 
-Ano, agent muze bezet sam online. Prakticky retezec je:
-
-```text
-GitHub Actions kazdy pracovni den
--> lead finder najde verejne polske kontakty
--> zapise nove radky do Google Sheets
--> Zapier se spusti pro status novy
--> AI pripravi text
--> Gmail vytvori draft
--> Trello vytvori kartu ke kontrole
-```
-
-Agent sam neposila e-maily. Vytvari drafty, aby mel clovek posledni kontrolu pred odeslanim.
-
-## Co je uz pripravene
-
-- `npm run leads` najde verejne kontakty.
-- `npm run leads:push` zapise nove kontakty do Google Sheets.
-- `npm run leads:auto` udela oboji po sobe.
-- `.github/workflows/polsky-leads.yml` spousti online beh kazdy pracovni den v 06:15 UTC a jde spustit i rucne.
-
-## Jednorazove nastaveni Google zapisu
-
-Google Sheets potrebuje bezpecny technicky ucet, aby mohl GitHub zapisovat do tabulky bez tveho pocitace. Aktualni nastavena varianta pouziva GitHub OIDC, takze v GitHubu nemusi byt ulozeny privatni JSON klic.
-
-1. Google Cloud projekt: `cobalt-alchemy-499219-h7`.
-2. Service account: `polsky-gastro-agent@cobalt-alchemy-499219-h7.iam.gserviceaccount.com`.
-3. Google Sheet `Polsko gastro CRM` je sdileny s timto service accountem jako editor.
-4. GitHub Actions v repozitari `hrstkachata-afk/polsky-gastro-agent` se prihlasuje pres Workload Identity Provider:
+Puvodni Google Sheet `Polsko gastro CRM` byl zablokovan Googlem kvuli smluvnim podminkam. Proto je agent docasne prepnuty do bezpecnejsiho rezimu:
 
 ```text
-projects/799250032013/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+GitHub Actions po rucnim spusteni
+-> lead finder najde verejne polske kandidaty
+-> ulozi CSV/TSV vystupy jako GitHub artifact
+-> clovek kontakty zkontroluje
+-> az potom se rozhodne, co pujde do CRM/Zapieru
 ```
 
-## GitHub secrets
+Agent sam neposila e-maily. Vytvari nebo pripravuje podklady ke kontrole.
 
-Pro aktualni OIDC variantu nejsou potreba GitHub secrets. Workflow ma jen `id-token: write` opravneni a Google Cloud povoli pouze repozitar `hrstkachata-afk/polsky-gastro-agent`.
+## Co je aktivni
 
-## Test
+- `npm run leads` najde verejne kandidaty.
+- `.github/workflows/polsky-leads.yml` jde spustit rucne pres GitHub Actions.
+- Workflow ted nezapisuje do Google Sheets.
+- Vystupy jsou ulozene jako artifact `polsky-leads-output`.
 
-Po nastaveni secrets:
+## Co je pozastavene
 
-1. Otevri GitHub repozitar.
-2. Jdi do `Actions`.
-3. Vyber `Polsky gastro lead finder`.
-4. Klikni `Run workflow`.
-5. Zkontroluj Google Sheet, jestli pribyly nove radky se `status = novy`.
-6. V Zapieru zkontroluj historii Zapier zapu a Gmail drafty.
+- Automaticky denni schedule.
+- Automaticky zapis do Google Sheets.
+- Automaticke spousteni Zapieru z novych radku.
 
-## Provozni poznamky
+## Proc
 
-- Pokud Zapier trial skonci, multistep zap muze prestat bezet, dokud nebude plan aktivni.
-- Pokud Google najde stejny web znovu, skript ho preskoci podle ID, webu, e-mailu nebo kontaktniho formulare.
-- Pro ostre automaticke odesilani by bylo potreba pridat dalsi schvalovaci pravidla. Aktualni varianta je bezpecnejsi: drafty plus Trello kontrola.
+Google zablokoval puvodni Sheet. Pokracovat stejnym automatickym zpusobem by mohlo zablokovat dalsi dokument nebo ucet. Bezpecnejsi je nejdriv snizit automatiku a zkontrolovat, jake kontakty a texty do CRM vubec patri.
+
+## Dalsi bezpecna varianta
+
+1. Pouzivat GitHub artifact jako surovy vystup.
+2. Do noveho CRM davat jen zkontrolovane firmy.
+3. Ukladat hlavne nazev firmy, web, mesto, typ kontaktu a odkaz na kontaktni stranku.
+4. E-mail vytvaret az po rucnim schvaleni kontaktu.
+5. Zachovat Gmail pouze jako drafty, ne automaticke odesilani.
