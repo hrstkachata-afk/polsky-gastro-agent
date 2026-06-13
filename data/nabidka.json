@@ -9,13 +9,21 @@
   "groupMinPeople": "do uzgodnienia",
   "maxGroupPeople": "40",
   "beerName": "Olbrew z lokalnego browaru",
-  "menuNotePl": "Menu główne doprecyzujemy według terminu i typu grupy.",
-  "programNotePl": "Program możemy dopasować do grupy. Dla szkół i osób niepijących przygotujemy wariant bez alkoholu.",
-  "offerNamePl": "Czeski obiad regionalny w Štramberku",
+  "menuNotePl": "Menu i program dopasujemy do typu grupy. Dla dzieci, szkół i osób niepijących przygotujemy wariant bez alkoholu.",
+  "programNotePl": "Jeżeli grupa będzie zainteresowana, chętnie przygotujemy konkretną ofertę według liczby osób, terminu i charakteru wyjazdu.",
+  "offerNamePl": "Regionalny obiad i krótki program dla grup w Štramberku",
+  "mealChoicesPl": [
+    "domowe knedliki ziemniaczane z domową kapustą i boczkiem",
+    "smażony ser z frytkami i sosem tatarskim",
+    "gulasz z knedlikiem",
+    "racuchy/naleśniki z twarogiem"
+  ],
   "packageBulletsPl": [
-    "tradycyjny czeski obiad",
-    "degustacja piwa Olbrew z lokalnego browaru dla osób dorosłych",
-    "domowe ucho nadziewane naszym kremem po obiedzie",
-    "paczka oryginalnych Štramberskich uszu na wynos"
+    "obiad dla grupy z wyborem menu według zamówienia grupy",
+    "po obiedzie degustacyjne Štramberské ucho z naszym kremem: lotusowym, borówkowym albo mix według aktualnej oferty",
+    "krótki hospodský kvíz jako lekki program dla grupy",
+    "paczka oryginalnych Štramberskich uszu na drogę",
+    "dla dorosłych możliwość degustacji lokalnego piwa Olbrew oraz zakupu całej butelki",
+    "dla dorosłych możliwość spróbowania domowej śliwowicy; dla szkół przygotujemy wariant dziecięcy bez alkoholu"
   ]
 }

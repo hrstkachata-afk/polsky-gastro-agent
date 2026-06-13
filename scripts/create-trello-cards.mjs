@@ -55,12 +55,12 @@ async function trello(pathname, options = {}, params = {}) {
 
 async function existingDomainsInList() {
   const cards = await trello(`/lists/${listId}/cards`, {}, { fields: "name,desc,closed" });
-  const domains = new Set();
+  const cardsByDomain = new Map();
   for (const card of cards) {
     const match = String(card.desc || "").match(/Lead domain:\s*([^\s]+)/);
-    if (match?.[1]) domains.add(match[1].trim().toLowerCase());
+    if (match?.[1]) cardsByDomain.set(match[1].trim().toLowerCase(), card);
   }
-  return domains;
+  return cardsByDomain;
 }
 
 async function createCard(lead, offer) {
@@ -71,6 +71,15 @@ async function createCard(lead, offer) {
     name: cardName(lead),
     desc: trelloCardDescription(lead, offer),
     pos: "bottom"
+  });
+}
+
+async function updateCard(card, lead, offer) {
+  return trello(`/cards/${card.id}`, {
+    method: "PUT"
+  }, {
+    name: cardName(lead),
+    desc: trelloCardDescription(lead, offer)
   });
 }
 
@@ -93,18 +102,26 @@ async function main() {
     return;
   }
 
-  const existingDomains = await existingDomainsInList();
+  const existingCards = await existingDomainsInList();
   let created = 0;
+  let updated = 0;
   for (const lead of leads) {
     const domain = domainOf(lead.web).toLowerCase();
-    if (!domain || existingDomains.has(domain)) continue;
+    if (!domain) continue;
+    const existingCard = existingCards.get(domain);
+    if (existingCard) {
+      await updateCard(existingCard, lead, offer);
+      updated += 1;
+      console.log(`Aktualizovana Trello karta: ${cardName(lead)} ${existingCard.shortUrl || ""}`);
+      continue;
+    }
     const card = await createCard(lead, offer);
-    existingDomains.add(domain);
+    existingCards.set(domain, card);
     created += 1;
     console.log(`Vytvorena Trello karta: ${card.name} ${card.shortUrl || card.url || ""}`);
   }
 
-  console.log(`Hotovo. Novych Trello karet: ${created}`);
+  console.log(`Hotovo. Novych Trello karet: ${created}. Aktualizovanych Trello karet: ${updated}`);
 }
 
 main().catch((error) => {
