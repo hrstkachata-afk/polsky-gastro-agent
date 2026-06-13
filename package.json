@@ -7,6 +7,7 @@
     "drafts": "node scripts/generate-drafts.mjs",
     "check": "node scripts/generate-drafts.mjs --dry-run",
     "leads": "node scripts/find-leads.mjs",
+    "review-pack": "node scripts/build-review-pack.mjs",
     "leads:push": "node scripts/upload-leads-to-google-sheets.mjs",
     "leads:auto": "npm run leads -- --max-queries=5 --max-results=10 --max-pages=40 && npm run leads:push",
     "reply": "node scripts/record-reply.mjs",

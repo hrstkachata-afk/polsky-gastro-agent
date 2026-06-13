@@ -15,6 +15,7 @@ Agent sam neposila e-maily. Vytvari nebo pripravuje podklady ke kontrole.
 ## Co je aktivni
 
 - `npm run leads` najde verejne kandidaty.
+- `npm run review-pack` vytvori checklist a Trello CSV ke kontrole.
 - `.github/workflows/polsky-leads.yml` jde spustit rucne pres GitHub Actions.
 - Workflow ted nezapisuje do Google Sheets.
 - Vystupy jsou ulozene jako artifact `polsky-leads-output`.
@@ -36,3 +37,11 @@ Google zablokoval puvodni Sheet. Pokracovat stejnym automatickym zpusobem by moh
 3. Ukladat hlavne nazev firmy, web, mesto, typ kontaktu a odkaz na kontaktni stranku.
 4. E-mail vytvaret az po rucnim schvaleni kontaktu.
 5. Zachovat Gmail pouze jako drafty, ne automaticke odesilani.
+
+## Vystupy ke kontrole
+
+Po rucnim behu workflow stahni artifact `polsky-leads-output`. Dulezite soubory:
+
+- `lead-candidates.csv` - surovy seznam nalezenych kandidatu.
+- `kontakty-ke-kontrole.md` - lidsky checklist.
+- `trello-karty-ke-kontrole.csv` - CSV pro vytvoreni karet v seznamu `Ke kontrole`.
