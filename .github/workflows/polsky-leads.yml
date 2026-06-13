@@ -1,6 +1,9 @@
 name: Polsky gastro lead finder
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
