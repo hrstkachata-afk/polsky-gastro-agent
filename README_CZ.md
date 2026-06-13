@@ -71,3 +71,21 @@ Trello fronta je popsaná v:
 ```text
 docs/TRELLO_FRONTA_CZ.md
 ```
+
+## AI psani e-mailu
+
+Trello karty umi pouzit i skutecne AI psani pres OpenAI API. Agent stale nic sam neposila, jen pripravi lepsi navrh ke kontrole.
+
+V GitHub Secrets je potreba doplnit:
+
+```text
+OPENAI_API_KEY
+```
+
+Volitelne jde v GitHub Variables nastavit:
+
+```text
+OPENAI_MODEL
+```
+
+Kdyz `OPENAI_API_KEY` chybi nebo OpenAI vrati chybu, agent pouzije bezpecnou pravidlovou verzi textu. V Trello karte je videt, jestli text vznikl pres OpenAI, nebo jako nahradni sablona.

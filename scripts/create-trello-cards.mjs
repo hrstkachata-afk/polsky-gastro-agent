@@ -2,7 +2,8 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseCsv } from "../lib/csv.mjs";
-import { domainOf, priorityFor, trelloCardDescription } from "../lib/outreach.mjs";
+import { generateAiDraft } from "../lib/ai-outreach.mjs";
+import { domainOf, priorityFor, renderDraft, trelloCardDescription } from "../lib/outreach.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
@@ -17,6 +18,7 @@ const token = process.env.TRELLO_TOKEN;
 const listId = process.env.TRELLO_LIST_ID;
 const dryRun = process.env.DRY_RUN === "1" || process.argv.includes("--dry-run");
 const maxCards = Number(process.env.MAX_TRELLO_CARDS || "10");
+const useOpenAi = process.env.USE_OPENAI === "1" || process.argv.includes("--openai");
 
 function cardName(lead) {
   const city = lead.mesto ? ` - ${lead.mesto}` : "";
@@ -63,23 +65,40 @@ async function existingDomainsInList() {
   return cardsByDomain;
 }
 
-async function createCard(lead, offer) {
+async function prepareDraft(lead, offer) {
+  if (!useOpenAi) return null;
+  try {
+    const draft = await generateAiDraft(lead, offer);
+    console.log(`AI navrh hotovy: ${lead.nazev} (${draft.segment || "bez segmentu"})`);
+    return draft;
+  } catch (error) {
+    console.warn(`AI navrh selhal pro ${lead.nazev}: ${error.message}. Pouzije se pravidlova verze.`);
+    return {
+      ...renderDraft(lead, offer),
+      source: "fallback",
+      segment: "fallback",
+      reason: `OpenAI selhalo: ${error.message}. Pouzita pravidlova verze.`
+    };
+  }
+}
+
+async function createCard(lead, offer, draft) {
   return trello("/cards", {
     method: "POST"
   }, {
     idList: listId,
     name: cardName(lead),
-    desc: trelloCardDescription(lead, offer),
+    desc: trelloCardDescription(lead, offer, draft),
     pos: "bottom"
   });
 }
 
-async function updateCard(card, lead, offer) {
+async function updateCard(card, lead, offer, draft) {
   return trello(`/cards/${card.id}`, {
     method: "PUT"
   }, {
     name: cardName(lead),
-    desc: trelloCardDescription(lead, offer)
+    desc: trelloCardDescription(lead, offer, draft)
   });
 }
 
@@ -108,14 +127,15 @@ async function main() {
   for (const lead of leads) {
     const domain = domainOf(lead.web).toLowerCase();
     if (!domain) continue;
+    const draft = await prepareDraft(lead, offer);
     const existingCard = existingCards.get(domain);
     if (existingCard) {
-      await updateCard(existingCard, lead, offer);
+      await updateCard(existingCard, lead, offer, draft);
       updated += 1;
       console.log(`Aktualizovana Trello karta: ${cardName(lead)} ${existingCard.shortUrl || ""}`);
       continue;
     }
-    const card = await createCard(lead, offer);
+    const card = await createCard(lead, offer, draft);
     existingCards.set(domain, card);
     created += 1;
     console.log(`Vytvorena Trello karta: ${card.name} ${card.shortUrl || card.url || ""}`);
