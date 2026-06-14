@@ -19,6 +19,7 @@ const listId = process.env.TRELLO_LIST_ID;
 const dryRun = process.env.DRY_RUN === "1" || process.argv.includes("--dry-run");
 const maxCards = Number(process.env.MAX_TRELLO_CARDS || "10");
 const useOpenAi = process.env.USE_OPENAI === "1" || process.argv.includes("--openai");
+const skipExistingAiCards = process.env.SKIP_EXISTING_AI_CARDS === "1" || process.argv.includes("--skip-existing-ai");
 
 function cardName(lead) {
   const city = lead.mesto ? ` - ${lead.mesto}` : "";
@@ -117,13 +118,13 @@ async function main() {
   ]);
   const offer = JSON.parse(offerRaw);
   const leads = parseCsv(raw)
-    .filter((lead) => lead.nazev && lead.web)
-    .slice(0, maxCards);
+    .filter((lead) => lead.nazev && lead.web);
 
   if (dryRun || !key || !token || !listId) {
+    const previewLeads = leads.slice(0, maxCards);
     const reason = dryRun ? "DRY RUN" : "Trello neni nakonfigurovane";
-    console.log(`${reason}: vytvorilo by se Trello karet: ${leads.length}`);
-    for (const lead of leads) {
+    console.log(`${reason}: zpracovalo by se Trello karet: ${previewLeads.length}`);
+    for (const lead of previewLeads) {
       console.log(`- ${cardName(lead)} (${domainOf(lead.web)})`);
     }
     return;
@@ -132,11 +133,21 @@ async function main() {
   const existingCards = await existingDomainsInList();
   let created = 0;
   let updated = 0;
+  let skipped = 0;
+  let processed = 0;
   for (const lead of leads) {
+    if (processed >= maxCards) break;
     const domain = domainOf(lead.web).toLowerCase();
     if (!domain) continue;
-    const draft = await prepareDraft(lead, offer);
     const existingCard = existingCards.get(domain);
+    if (existingCard && skipExistingAiCards && hasAiDraft(existingCard)) {
+      skipped += 1;
+      console.log(`Preskocena Trello karta, uz ma AI text: ${cardName(lead)} ${existingCard.shortUrl || ""}`);
+      continue;
+    }
+
+    processed += 1;
+    const draft = await prepareDraft(lead, offer);
     if (existingCard) {
       if (hasAiDraft(existingCard) && isQuotaFallback(draft)) {
         console.log(`Preskocena Trello karta kvuli AI limitu, zachovan starsi AI text: ${cardName(lead)} ${existingCard.shortUrl || ""}`);
@@ -153,7 +164,7 @@ async function main() {
     console.log(`Vytvorena Trello karta: ${card.name} ${card.shortUrl || card.url || ""}`);
   }
 
-  console.log(`Hotovo. Novych Trello karet: ${created}. Aktualizovanych Trello karet: ${updated}`);
+  console.log(`Hotovo. Novych Trello karet: ${created}. Aktualizovanych Trello karet: ${updated}. Preskocenych hotovych AI karet: ${skipped}`);
 }
 
 main().catch((error) => {

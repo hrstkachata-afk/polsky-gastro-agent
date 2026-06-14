@@ -66,6 +66,14 @@ docs/AUTOPILOT_24_7_CZ.md
 
 Agent najde kontakty, připraví e-mailové texty a může vytvořit Trello karty do seznamu `K odeslani`.
 
+GitHub Actions jsou nastavene i na automaticky denni beh:
+
+```text
+kazdy den v 10:00 ceskeho letniho casu
+```
+
+Kvuli Gemini free tieru zpracuje automat denne jen mensi davku Trello karet. Hotove karty, ktere uz maji Gemini/OpenAI text, preskakuje, aby zbytecne nepalil free limit.
+
 Trello fronta je popsaná v:
 
 ```text

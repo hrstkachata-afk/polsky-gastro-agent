@@ -2,6 +2,9 @@ name: Polsky gastro lead finder
 
 on:
   workflow_dispatch:
+  schedule:
+    # 10:00 v Praze behem letniho casu. GitHub cron bezi v UTC.
+    - cron: "0 8 * * *"
 
 jobs:
   find-and-push-leads:
@@ -37,7 +40,8 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-4.1-mini' }}
           USE_OPENAI: "1"
-          MAX_TRELLO_CARDS: "10"
+          MAX_TRELLO_CARDS: "8"
+          SKIP_EXISTING_AI_CARDS: "1"
 
       - name: Create GitHub review issues
         run: npm run review-issues
