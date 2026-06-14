@@ -93,3 +93,11 @@ OPENAI_MODEL
 ```
 
 Kdyz API klic chybi nebo provider vrati chybu, agent pouzije bezpecnou pravidlovou verzi textu. V Trello karte je videt, jestli text vznikl pres Gemini, OpenAI, nebo jako nahradni sablona.
+
+Styl a pravidla psani jsou v:
+
+```text
+data/ai-styl.json
+```
+
+Kdyz se nejaky e-mail nelibi, uprav tento soubor. Gemini ho dostane pri kazdem dalsim behu.

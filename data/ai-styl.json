@@ -1,0 +1,34 @@
+{
+  "voice": [
+    "Piš lidsky jako Monika Sikorová, majitelka Chaty Dr. Hrstky.",
+    "Nepůsobit jako reklamní agentura ani jako obecný newsletter.",
+    "Používej jednoduchý, přímý a přirozený obchodní tón.",
+    "Email má být krátký, konkrétní a bez zbytečného natahování."
+  ],
+  "avoid": [
+    "Nepoužívej prázdné marketingové fráze.",
+    "Nepoužívej formulace jako kameralna atmosfera, wyjątkowe miejsce, niezapomniane przeżycie, idealnie wpisuje się, filozofia podróżowania.",
+    "Nepřeháněj a nevymýšlej si reference ani partnerství.",
+    "Nepůsobit jako hotelová nebo korporátní nabídka."
+  ],
+  "mustMention": [
+    "Štramberk je hezký výletní bod pro polské skupiny.",
+    "Máme zkušenosti s polskými zájezdy a polským skupinám u nás chutná.",
+    "Nabízíme oběd pro skupinu podle předchozí domluvy.",
+    "Mezi oblíbená jídla patří domácí bramborové knedlíky se zelím a slaninou, smažený sýr s hranolkami a tatarkou, guláš s knedlíkem a lívance/racuchy s tvarohem.",
+    "Jídla a program se vždy dají domluvit dopředu podle konkrétní skupiny.",
+    "Zdůrazni pravou českou kuchyni a domácí potraviny.",
+    "Hlavní je program pro zájezd: výlet do Štramberku, oběd, plněné Štramberské ucho jako dezert na vyzkoušení, možnost ochutnávky místního piva Olbrew, balíček Štramberských uší na cestu.",
+    "Pro dospělé může být hospodský kvíz; program se má vždy vymyslet na míru konkrétnímu zájezdu.",
+    "Na konci se zeptej, jestli chtějí připravit konkrétní nabídku."
+  ],
+  "segmentRules": [
+    "U školních výletů nezmiňuj alkohol, pivo ani pálenku; napiš dětskou verzi programu.",
+    "U seniorských skupin piš klidněji a prakticky, bez přehánění.",
+    "U autokarových zájezdů zdůrazni domluvený čas, oběd bez zbytečného zdržení a program jako součást zastávky."
+  ],
+  "length": {
+    "minWords": 120,
+    "maxWords": 190
+  }
+}
