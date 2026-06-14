@@ -37,7 +37,7 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-4.1-mini' }}
           USE_OPENAI: "1"
-          MAX_TRELLO_CARDS: "38"
+          MAX_TRELLO_CARDS: "10"
 
       - name: Create GitHub review issues
         run: npm run review-issues

@@ -82,6 +82,14 @@ async function prepareDraft(lead, offer) {
   }
 }
 
+function hasAiDraft(card) {
+  return /Zdroj:\s+(Gemini|OpenAI) AI navrh podle webu kontaktu/i.test(String(card.desc || ""));
+}
+
+function isQuotaFallback(draft) {
+  return draft?.source === "fallback" && /(quota|rate|limit|exceeded)/i.test(String(draft.reason || ""));
+}
+
 async function createCard(lead, offer, draft) {
   return trello("/cards", {
     method: "POST"
@@ -130,6 +138,10 @@ async function main() {
     const draft = await prepareDraft(lead, offer);
     const existingCard = existingCards.get(domain);
     if (existingCard) {
+      if (hasAiDraft(existingCard) && isQuotaFallback(draft)) {
+        console.log(`Preskocena Trello karta kvuli AI limitu, zachovan starsi AI text: ${cardName(lead)} ${existingCard.shortUrl || ""}`);
+        continue;
+      }
       await updateCard(existingCard, lead, offer, draft);
       updated += 1;
       console.log(`Aktualizovana Trello karta: ${cardName(lead)} ${existingCard.shortUrl || ""}`);
